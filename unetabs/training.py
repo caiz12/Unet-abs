@@ -60,7 +60,7 @@ if __name__ == '__main__':
     xmin=0
     xmax=100
     arr_len =10000
-    abs_num = 1000 # No. of absorbers
+    abs_num = 100 # No. of absorbers
 
     # construct continuum
     cont = continu(xmin, xmax, arr_len)
@@ -88,3 +88,6 @@ if __name__ == '__main__':
     # make a transformation from 1-D arry to 2-D image
     abs_im = np.reshape(cont.flux,(100,100))
     lab_im = np.reshape(cont.label,(100,100))
+
+    plt.imshow(abs_im, origin='lower')
+    plt.show()
