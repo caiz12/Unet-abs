@@ -54,36 +54,40 @@ def continu(xmin, xmax, arr_len):
     return cont
 
 
+# Command line execution
+if __name__ == '__main__':
 
+    xmin=0
+    xmax=100
+    arr_len =10000
+    abs_num = 100 # No. of absorbers
 
-xmin=0
-xmax=100
-arr_len =10000
-abs_num = 1000 # No. of absorbers
+    # construct continuum
+    cont = continu(xmin, xmax, arr_len)
+    # insert absorber
+    abs_pos= np.random.uniform(xmin, xmax, abs_num)
+    sig_arr= np.random.normal(0.02, 0.01, abs_num)
+    amp_arr= np.random.uniform(0, 1, abs_num)
+    for i in range(0, abs_num):
+        abs= insert_abs(cont.wave, cont.flux, abs_pos[i], sig_arr[i], amp_arr[i])
+        cont.flux= abs.flux
+        cont.label= abs.label
 
-# construct continuum
-cont = continu(xmin, xmax, arr_len)
-# insert absorber
-abs_pos= np.random.uniform(xmin, xmax, abs_num)
-sig_arr= np.random.normal(0.02, 0.01, abs_num)
-amp_arr= np.random.uniform(0, 1, abs_num)
-for i in range(0, abs_num):
-    abs= insert_abs(cont.wave, cont.flux, abs_pos[i], sig_arr[i], amp_arr[i])
-    cont.flux= abs.flux
-    cont.label= abs.label
-    
-# make a plot to double check
-ax= plt.subplot(211)
-plt.plot(cont.wave, abs.flux, color='red')
-ax.set_xlim((10,15))
-ax.set_ylim((0.0, 1.3))
-# label 0 = no absorption, 1= absorption
-ax= plt.subplot(212)
-plt.plot(cont.wave, cont.label, color='red')
-ax.set_xlim((10,15))
-ax.set_ylim((0.0, 1.3))
-plt.show()
+    # make a plot to double check
+    ax= plt.subplot(211)
+    plt.plot(cont.wave, abs.flux, color='red')
+    ax.set_xlim((10,15))
+    ax.set_ylim((0.0, 1.3))
+    # label 0 = no absorption, 1= absorption
+    ax= plt.subplot(212)
+    plt.plot(cont.wave, cont.label, color='red')
+    ax.set_xlim((10,15))
+    ax.set_ylim((0.0, 1.3))
+    plt.show()
 
-# make a transformation from 1-D arry to 2-D image
-abs_im = np.reshape(cont.flux,(100,100))
-lab_im = np.reshape(cont.label,(100,100))
+    # make a transformation from 1-D arry to 2-D image
+    abs_im = np.reshape(cont.flux,(100,100))
+    lab_im = np.reshape(cont.label,(100,100))
+
+    plt.imshow(abs_im, origin='lower')
+    plt.show()
