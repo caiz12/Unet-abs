@@ -105,6 +105,6 @@ if __name__ == '__main__':
    #Subsection of the image
         print abs_arr.shape
         path=str(i)+'.fits'
-        path2=str(i)+'_mask.fits'
+        path_mask=str(i)+'_mask.fits'
         fits.writeto('/Users/zhengcai/Dropbox/data/unet/real/'+path,abs_arr,clobber='True')
-        fits.writeto('/Users/zhengcai/Dropbox/data/unet/real/'+path2,lab_arr,clobber='True')
+        fits.writeto('/Users/zhengcai/Dropbox/data/unet/real/'+path_mask,lab_arr,clobber='True')
