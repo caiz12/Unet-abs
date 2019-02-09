@@ -12,6 +12,7 @@ from torch.utils.data import DataLoader
 import torch.nn.functional as F
 import torch.optim as optim
 from torch.optim import lr_scheduler
+import torch.nn as nn
 
 from unetabs import absdataset
 from unetabs import spectraunet
@@ -30,8 +31,14 @@ def train_standard(flux_file, lbls_file, outfile, testing=False):
     dataloaders['train'] = DataLoader(simple_train, batch_size=4, shuffle=True)
     dataloaders['valid'] = DataLoader(simple_valid, batch_size=4, shuffle=True)  # , num_workers=4)
 
-    # Run it
-    model = spectraunet.SpectraUNet().to(device)
+    # Seup model
+    model = spectraunet.SpectraUNet()
+    if device.type == 'cuda':
+        if torch.cuda.device_count() > 1:
+            model = nn.DataParallel(model)
+    # Finish
+    model.to(device)
+
     # Observe that all parameters are being optimized
     optimizer_ft = optim.Adam(model.parameters(), lr=1e-4)
 
