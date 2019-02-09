@@ -1,4 +1,4 @@
-""" Organize data"""
+""" Organize data  """
 
 import numpy as np
 
