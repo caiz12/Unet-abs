@@ -21,7 +21,7 @@ from unetabs import spectraunet
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
-def train_standard(flux_file, lbls_file, outfile, testing=False):
+def train_standard(flux_file, lbls_file, outfile, testing=False, try_parallel=True):
 
     # Load up data
     simple_train = absdataset.AbsDataset(flux_file, lbls_file, mode='train', testing=testing)
@@ -34,7 +34,7 @@ def train_standard(flux_file, lbls_file, outfile, testing=False):
     # Seup model
     model = spectraunet.SpectraUNet()
     if device.type == 'cuda':
-        if torch.cuda.device_count() > 1:
+        if (torch.cuda.device_count() > 1) & try_parallel:
             model = nn.DataParallel(model)
     # Finish
     model.to(device)
