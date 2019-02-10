@@ -31,12 +31,12 @@ def train_standard(flux_file, lbls_file, outfile, testing=False, try_parallel=Tr
     dataloaders['train'] = DataLoader(simple_train, batch_size=4, shuffle=True)
     dataloaders['valid'] = DataLoader(simple_valid, batch_size=4, shuffle=True)  # , num_workers=4)
 
-    # Seup model
+    # Setup model
     model = spectraunet.SpectraUNet()
     if device.type == 'cuda':
         if (torch.cuda.device_count() > 1) & try_parallel:
             model = nn.DataParallel(model)
-    # Finish
+    # Finish setup
     model.to(device)
 
     # Observe that all parameters are being optimized

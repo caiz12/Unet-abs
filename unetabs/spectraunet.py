@@ -1,4 +1,5 @@
 """ Module for the Spectra Unet class"""
+import numpy as np
 import torch
 import torch.nn as nn
 
@@ -56,3 +57,16 @@ class SpectraUNet(nn.Module):
         out = self.conv_last(x)
 
         return out
+
+    def apply_to_spec(self, spec):
+
+        # Convert to numpy32
+        newspec = spec.astype(np.float32)
+        # Convert to torch
+        torch_spec = torch.from_numpy(newspec.reshape(1, 1, 64, 64))
+        # Run
+        pred = self(torch_spec)
+        # Convert to something useful
+        pred = pred.data.cpu().numpy().flatten()
+        #
+        return pred
