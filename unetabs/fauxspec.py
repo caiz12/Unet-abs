@@ -21,7 +21,7 @@ def sum_tau(pixx, randt, randx, rands):
     return tau_tot
 
 def noisy(nsample=10000, npix=64**2, avg_Nline=50, seed=12345,
-          abs_thresh=0.95, verbose=True):
+          abs_thresh=0.95, verbose=True, tau0=(0.1,10)):
     """
     Generate the simplest, noise random dataset
 
@@ -33,6 +33,7 @@ def noisy(nsample=10000, npix=64**2, avg_Nline=50, seed=12345,
         avg_Nline: int, optional
           On average per spectrum
         seed: int, optional
+        tau0 (tuple, optional):  min/max for Uniform draws of tau0
         abs_thresh (float, optional):  Defined threshold without noise for an absorbed pixel
         verbose (bool, optional):
 
@@ -44,7 +45,6 @@ def noisy(nsample=10000, npix=64**2, avg_Nline=50, seed=12345,
 
     # Random Gaussian parameters
     sigma = (3., 7)  # Uniform
-    tau0 = (0.1, 10)  # Uniform
     s2n = (3, 20)  # Uniform; per pixel
 
     # Init
